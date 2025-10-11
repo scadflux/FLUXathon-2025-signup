@@ -46,10 +46,12 @@ export default function TeamSubmissionForm() {
     if (!webhookUrl) return true;
     
     try {
+      const formData = new URLSearchParams();
+      formData.append("action", "checkCount");
+      
       const response = await fetch(webhookUrl, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "checkCount" }),
+        body: formData,
       });
       
       if (response.ok) {
@@ -82,31 +84,23 @@ export default function TeamSubmissionForm() {
         return;
       }
 
+      const formData = new URLSearchParams();
+      formData.append("action", "submit");
+      formData.append("teamName", data.teamName);
+      formData.append("member1FirstName", data.member1FirstName);
+      formData.append("member1LastName", data.member1LastName);
+      formData.append("member1Email", data.member1Email);
+      formData.append("member2FirstName", data.member2FirstName);
+      formData.append("member2LastName", data.member2LastName);
+      formData.append("member2Email", data.member2Email);
+      formData.append("member3FirstName", data.member3FirstName);
+      formData.append("member3LastName", data.member3LastName);
+      formData.append("member3Email", data.member3Email);
+      formData.append("timestamp", new Date().toISOString());
+      
       const response = await fetch(webhookUrl, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          action: "submit",
-          teamName: data.teamName,
-          members: [
-            {
-              firstName: data.member1FirstName,
-              lastName: data.member1LastName,
-              email: data.member1Email,
-            },
-            {
-              firstName: data.member2FirstName,
-              lastName: data.member2LastName,
-              email: data.member2Email,
-            },
-            {
-              firstName: data.member3FirstName,
-              lastName: data.member3LastName,
-              email: data.member3Email,
-            },
-          ],
-          timestamp: new Date().toISOString(),
-        }),
+        body: formData,
       });
 
       if (response.ok) {
