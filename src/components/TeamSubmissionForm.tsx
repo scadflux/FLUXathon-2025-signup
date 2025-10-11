@@ -136,14 +136,19 @@ export default function TeamSubmissionForm() {
 
   if (isSubmitted) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4 bg-background">
-        <Card className="max-w-md w-full p-8 text-center space-y-4 bg-card border-border">
+      <div className="min-h-screen flex items-center justify-center p-4 bg-background relative overflow-hidden">
+        {/* Geometric background patterns */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-20 left-10 w-64 h-64 bg-primary rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-primary rounded-full blur-3xl"></div>
+        </div>
+        <Card className="max-w-md w-full p-8 text-center space-y-4 bg-card border-border backdrop-blur-sm shadow-xl relative z-10">
           <div className="w-16 h-16 mx-auto bg-primary/10 rounded-full flex items-center justify-center">
             <CheckCircle2 className="w-8 h-8 text-primary" />
           </div>
           <h2 className="text-2xl font-bold text-foreground">Successfully Registered!</h2>
           <p className="text-muted-foreground">
-            Your team has been registered for the design competition. Good luck!
+            Your team has been registered for FLUXathon. Good luck!
           </p>
           <Button onClick={() => setIsSubmitted(false)} className="mt-4">
             Submit Another Team
@@ -155,14 +160,19 @@ export default function TeamSubmissionForm() {
 
   if (isCapacityReached) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4 bg-background">
-        <Card className="max-w-md w-full p-8 text-center space-y-4 bg-card border-border">
+      <div className="min-h-screen flex items-center justify-center p-4 bg-background relative overflow-hidden">
+        {/* Geometric background patterns */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-20 left-10 w-64 h-64 bg-primary rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-primary rounded-full blur-3xl"></div>
+        </div>
+        <Card className="max-w-md w-full p-8 text-center space-y-4 bg-card border-border backdrop-blur-sm shadow-xl relative z-10">
           <div className="w-16 h-16 mx-auto bg-destructive/10 rounded-full flex items-center justify-center">
             <Users className="w-8 h-8 text-destructive" />
           </div>
           <h2 className="text-2xl font-bold text-foreground">Capacity Reached</h2>
           <p className="text-muted-foreground">
-            We've reached the maximum of {MAX_SUBMISSIONS} team submissions for this competition.
+            We've reached the maximum of {MAX_SUBMISSIONS} team submissions for FLUXathon.
             Thank you for your interest!
           </p>
         </Card>
@@ -171,27 +181,37 @@ export default function TeamSubmissionForm() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-background">
-      <div className="max-w-3xl w-full space-y-8">
-        <div className="text-center space-y-2">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-            Design Competition
-          </h1>
-          <p className="text-muted-foreground">Team Registration Form</p>
+    <div className="min-h-screen flex items-center justify-center p-4 bg-background relative overflow-hidden">
+      {/* Geometric background patterns */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute top-20 left-10 w-64 h-64 bg-primary rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-primary rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/30 rounded-full blur-3xl"></div>
+      </div>
+
+      <div className="max-w-3xl w-full space-y-8 relative z-10">
+        <div className="text-center space-y-4">
+          <img
+            src="/fluxathon.svg"
+            alt="FLUXathon"
+            className="h-24 mx-auto mb-4"
+          />
+          <p className="text-muted-foreground text-lg">Team Registration</p>
+          <p className="text-sm text-muted-foreground">Sponsored by Google</p>
           {isLoading ? (
             <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
               <Loader2 className="h-3 w-3 animate-spin" />
               <span>Loading...</span>
             </div>
           ) : (
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-primary font-semibold">
               {submissionCount}/{MAX_SUBMISSIONS} teams registered
             </p>
           )}
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            <Card className="p-6 space-y-4 bg-card border-border">
+            <Card className="p-6 space-y-4 bg-card border-border backdrop-blur-sm shadow-xl">
               <h3 className="text-xl font-semibold text-foreground">Team Information</h3>
               <div className="space-y-2">
                 <Label htmlFor="teamName" className="text-foreground">Team Name</Label>
@@ -208,7 +228,7 @@ export default function TeamSubmissionForm() {
             </Card>
 
             {[1, 2, 3].map((num) => (
-              <Card key={num} className="p-6 space-y-4 bg-card border-border">
+              <Card key={num} className="p-6 space-y-4 bg-card border-border backdrop-blur-sm shadow-xl">
                 <h3 className="text-lg font-semibold text-foreground">Team Member {num}</h3>
                 <div className="grid gap-4 md:grid-cols-2">
                   <div className="space-y-2">
@@ -267,7 +287,7 @@ export default function TeamSubmissionForm() {
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
+              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-primary/50 transition-all duration-300"
               size="lg"
             >
               {isSubmitting ? (

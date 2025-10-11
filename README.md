@@ -65,6 +65,16 @@ This project is built with:
 - shadcn-ui
 - Tailwind CSS
 
+## Project Details
+
+This is a team registration form for **FLUXathon**, sponsored by Google. The form features:
+
+- Dark, techy design with bright blue (#316EFF) accent color
+- Geometric background patterns
+- FLUXathon branding and Google sponsorship
+- Team capacity tracking (max 20 teams)
+- Real-time submission count from Google Sheets
+
 ## Configuration
 
 ### Google Sheets Integration
@@ -85,6 +95,14 @@ This form integrates with Google Sheets via a Google Apps Script webhook. To con
 The webhook should handle two actions:
 - `action=checkCount`: Returns the current submission count as `{ count: number }`
 - `action=submit`: Saves the team submission data to Google Sheets
+
+### Design System
+
+The application uses a custom dark theme with:
+- Background: Dark blue-gray (#0d1117 approx)
+- Primary/Accent: Bright blue (#316EFF)
+- Geometric blur patterns for visual interest
+- Glassmorphism effects on cards
 
 ## How can I deploy this project?
 

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a design competition team registration form built with Vite + React + TypeScript + shadcn/ui. The application integrates with Google Sheets via Google Apps Script webhooks for data persistence.
+This is the FLUXathon team registration form (sponsored by Google) built with Vite + React + TypeScript + shadcn/ui. The application features a dark, techy design with geometric patterns and integrates with Google Sheets via Google Apps Script webhooks for data persistence.
 
 ## Tech Stack
 
@@ -57,13 +57,17 @@ npm run preview      # Preview production build
 ### Styling System
 
 - Uses Tailwind with CSS variable-based theming (HSL color format)
+- Dark theme with bright blue (#316EFF / 220 100% 60%) as primary color
+- Geometric background patterns using blurred circles with primary color
+- Glassmorphism effects on cards (backdrop-blur-sm)
+- Shadow effects with primary color glow on hover
 - Theme colors: primary, secondary, accent, destructive, muted, card, background, etc.
-- Dark mode supported via class-based strategy
 - All colors reference CSS variables (e.g., `hsl(var(--primary))`)
 
 ### Path Aliases
 
 - `@/*` → `src/*` (configured in vite.config.ts and tsconfig.json)
+- `/fluxathon.svg` → FLUXathon logo in public directory
 
 ## Environment Variables
 
@@ -78,3 +82,5 @@ npm run preview      # Preview production build
 - Component tagging: `lovable-tagger` plugin enabled in development mode
 - Webhook URL configured via environment variable (not user input)
 - Submission limit hardcoded to 20 teams in `TeamSubmissionForm.tsx:27`
+- FLUXathon branding: Logo displayed as hero, "Sponsored by Google" tagline
+- Design aesthetic: Dark techy theme with geometric patterns inspired by FLUXathon presentation slides
