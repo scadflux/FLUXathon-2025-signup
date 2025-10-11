@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -25,13 +25,14 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 const MAX_SUBMISSIONS = 20;
+const WEBHOOK_URL = import.meta.env.VITE_GOOGLE_SHEETS_WEBHOOK_URL;
 
 export default function TeamSubmissionForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [submissionCount, setSubmissionCount] = useState(0);
   const [isCapacityReached, setIsCapacityReached] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [webhookUrl, setWebhookUrl] = useState("");
 
   const {
     register,
@@ -43,21 +44,26 @@ export default function TeamSubmissionForm() {
   });
 
   const checkCapacity = async () => {
-    if (!webhookUrl) return true;
-    
+    if (!WEBHOOK_URL) return true;
+
     try {
       const formData = new URLSearchParams();
       formData.append("action", "checkCount");
-      
-      const response = await fetch(webhookUrl, {
+
+      const response = await fetch(WEBHOOK_URL, {
         method: "POST",
         body: formData,
       });
-      
+
       if (response.ok) {
         const data = await response.json();
         const count = data.count || 0;
         setSubmissionCount(count);
+
+        if (count >= MAX_SUBMISSIONS) {
+          setIsCapacityReached(true);
+        }
+
         return count < MAX_SUBMISSIONS;
       }
     } catch (error) {
@@ -66,9 +72,18 @@ export default function TeamSubmissionForm() {
     return true;
   };
 
+  // Load current submission count on component mount
+  useEffect(() => {
+    const loadCount = async () => {
+      await checkCapacity();
+      setIsLoading(false);
+    };
+    loadCount();
+  }, []);
+
   const onSubmit = async (data: FormData) => {
-    if (!webhookUrl) {
-      toast.error("Please configure your Google Sheets webhook URL first");
+    if (!WEBHOOK_URL) {
+      toast.error("Google Sheets webhook URL is not configured");
       return;
     }
 
@@ -76,7 +91,7 @@ export default function TeamSubmissionForm() {
 
     try {
       const hasCapacity = await checkCapacity();
-      
+
       if (!hasCapacity) {
         setIsCapacityReached(true);
         toast.error("Submission capacity has been reached (20/20)");
@@ -97,8 +112,8 @@ export default function TeamSubmissionForm() {
       formData.append("member3LastName", data.member3LastName);
       formData.append("member3Email", data.member3Email);
       formData.append("timestamp", new Date().toISOString());
-      
-      const response = await fetch(webhookUrl, {
+
+      const response = await fetch(WEBHOOK_URL, {
         method: "POST",
         body: formData,
       });
@@ -163,29 +178,19 @@ export default function TeamSubmissionForm() {
             Design Competition
           </h1>
           <p className="text-muted-foreground">Team Registration Form</p>
-          <p className="text-sm text-muted-foreground">
-            {submissionCount}/{MAX_SUBMISSIONS} teams registered
-          </p>
+          {isLoading ? (
+            <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+              <Loader2 className="h-3 w-3 animate-spin" />
+              <span>Loading...</span>
+            </div>
+          ) : (
+            <p className="text-sm text-muted-foreground">
+              {submissionCount}/{MAX_SUBMISSIONS} teams registered
+            </p>
+          )}
         </div>
 
-        {!webhookUrl ? (
-          <Card className="p-6 space-y-4 bg-card border-border">
-            <h3 className="text-lg font-semibold text-foreground">Setup Required</h3>
-            <p className="text-sm text-muted-foreground">
-              To enable Google Sheets integration, please enter your Google Apps Script webhook URL:
-            </p>
-            <Input
-              placeholder="https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec"
-              value={webhookUrl}
-              onChange={(e) => setWebhookUrl(e.target.value)}
-              className="bg-input border-border text-foreground"
-            />
-            <p className="text-xs text-muted-foreground">
-              Create a Google Apps Script to handle form submissions and paste the web app URL here.
-            </p>
-          </Card>
-        ) : (
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <Card className="p-6 space-y-4 bg-card border-border">
               <h3 className="text-xl font-semibold text-foreground">Team Information</h3>
               <div className="space-y-2">
@@ -274,8 +279,7 @@ export default function TeamSubmissionForm() {
                 "Submit Team Registration"
               )}
             </Button>
-          </form>
-        )}
+        </form>
       </div>
     </div>
   );

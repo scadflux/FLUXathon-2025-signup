@@ -32,7 +32,12 @@ cd <YOUR_PROJECT_NAME>
 # Step 3: Install the necessary dependencies.
 npm i
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Step 4: Configure environment variables.
+# Copy .env.example to .env and add your Google Apps Script webhook URL
+cp .env.example .env
+# Edit .env and set VITE_GOOGLE_SHEETS_WEBHOOK_URL
+
+# Step 5: Start the development server with auto-reloading and an instant preview.
 npm run dev
 ```
 
@@ -59,6 +64,27 @@ This project is built with:
 - React
 - shadcn-ui
 - Tailwind CSS
+
+## Configuration
+
+### Google Sheets Integration
+
+This form integrates with Google Sheets via a Google Apps Script webhook. To configure:
+
+1. Create a Google Apps Script that handles form submissions
+2. Deploy it as a web app and copy the webhook URL
+3. Create a `.env` file from `.env.example`:
+   ```bash
+   cp .env.example .env
+   ```
+4. Set your webhook URL in `.env`:
+   ```
+   VITE_GOOGLE_SHEETS_WEBHOOK_URL=https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec
+   ```
+
+The webhook should handle two actions:
+- `action=checkCount`: Returns the current submission count as `{ count: number }`
+- `action=submit`: Saves the team submission data to Google Sheets
 
 ## How can I deploy this project?
 
