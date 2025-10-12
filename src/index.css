@@ -11,7 +11,7 @@ All colors MUST be HSL.
     --background: 220 20% 8%;
     --foreground: 0 0% 98%;
 
-    --card: 220 15% 12%;
+    --card: 220 15% 12% / 0.3;
     --card-foreground: 0 0% 98%;
 
     --popover: 220 15% 12%;
@@ -33,7 +33,7 @@ All colors MUST be HSL.
     --destructive-foreground: 0 0% 98%;
 
     --border: 220 15% 20%;
-    --input: 220 15% 15%;
+    --input: 0 0% 100% / 0.05;
     --ring: 220 100% 60%;
 
     --radius: 0.75rem;
@@ -55,7 +55,7 @@ All colors MUST be HSL.
     --background: 220 20% 8%;
     --foreground: 0 0% 98%;
 
-    --card: 220 15% 12%;
+    --card: 220 15% 12% / 0.3;
     --card-foreground: 0 0% 98%;
 
     --popover: 220 15% 12%;
@@ -77,7 +77,7 @@ All colors MUST be HSL.
     --destructive-foreground: 0 0% 98%;
 
     --border: 220 15% 20%;
-    --input: 220 15% 15%;
+    --input: 0 0% 100% / 0.05;
     --ring: 220 100% 60%;
     --sidebar-background: 220 5.9% 10%;
     --sidebar-foreground: 220 4.8% 95.9%;
@@ -95,11 +95,120 @@ All colors MUST be HSL.
     @apply border-border;
   }
 
+  html {
+    background-color: #1e3a8a;
+    min-height: 100%;
+  }
+
   body {
-    @apply bg-background text-foreground font-sans antialiased;
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Space Mono', 'JetBrains Mono', 'Fira Code', 'SF Mono', 'Consolas', 'Monaco', 'Liberation Mono', 'Courier New', monospace;
+    letter-spacing: -0.02em;
+    background-color: #1e3a8a;
+    min-height: 100vh;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-bold tracking-tight;
+    @apply font-bold;
+    letter-spacing: -0.03em;
+  }
+
+  label, p, span, div {
+    letter-spacing: -0.02em;
+  }
+
+  @keyframes float-slow {
+    0%, 100% { transform: translate(0, 0) rotate(var(--rotate-start, 0deg)); }
+    50% { transform: translate(var(--float-x, 30px), var(--float-y, 30px)) rotate(var(--rotate-end, 45deg)); }
+  }
+
+  @keyframes float-reverse {
+    0%, 100% { transform: translate(0, 0) rotate(var(--rotate-start, 0deg)); }
+    50% { transform: translate(var(--float-x, -30px), var(--float-y, -30px)) rotate(var(--rotate-end, -45deg)); }
+  }
+
+  .animate-float-slow {
+    animation: float-slow 20s ease-in-out infinite;
+  }
+
+  .animate-float-reverse {
+    animation: float-reverse 25s ease-in-out infinite;
+  }
+
+  /* Increase animation movement on mobile to compensate for smaller viewport */
+  @media (max-width: 768px) {
+    .animate-float-slow {
+      animation: float-slow-mobile 25s ease-in-out infinite;
+    }
+
+    .animate-float-reverse {
+      animation: float-reverse-mobile 25s ease-in-out infinite;
+    }
+  }
+
+  @keyframes float-slow-mobile {
+    0%, 100% { transform: translate(0, 0) rotate(var(--rotate-start, 0deg)) scale(1); }
+    50% { transform: translate(calc(var(--float-x, 30px) * 4), calc(var(--float-y, 30px) * 4)) rotate(var(--rotate-end, 45deg)) scale(1); }
+  }
+
+  @keyframes float-reverse-mobile {
+    0%, 100% { transform: translate(0, 0) rotate(var(--rotate-start, 0deg)) scale(1); }
+    50% { transform: translate(calc(var(--float-x, -30px) * 4), calc(var(--float-y, -30px) * 4)) rotate(var(--rotate-end, -45deg)) scale(1); }
+  }
+
+  @keyframes blink-in {
+    0% {
+      opacity: 0;
+      transform: scale(0.3);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .animate-blink-in {
+    animation: blink-in 0.5s ease-out forwards;
+    opacity: 0;
+  }
+
+  @keyframes pulse-dot {
+    0%, 100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.6;
+      transform: scale(0.9);
+    }
+  }
+
+  .animate-pulse-dot {
+    animation: pulse-dot 3s ease-in-out infinite !important;
+  }
+
+  @keyframes loading-wave {
+    0% {
+      opacity: 0.2;
+      transform: scale(0.7);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    100% {
+      opacity: 0.2;
+      transform: scale(0.7);
+    }
+  }
+
+  .animate-loading-wave {
+    opacity: 0.2;
+    transform: scale(0.7);
+    animation: loading-wave 2s ease-in-out infinite;
   }
 }
