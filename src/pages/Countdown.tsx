@@ -94,51 +94,51 @@ const CountdownPage = () => {
           </h1>
 
           {/* Countdown Timer */}
-          <div className="flex items-end justify-center gap-2 sm:gap-4 md:gap-6 pb-12">
+          <div className="flex items-end justify-center gap-1 sm:gap-2 md:gap-4 lg:gap-6 pb-12">
             <div className="flex flex-col items-center">
-              <div style={{ fontFamily: 'Roboto Mono', fontSize: '60px', fontStyle: 'normal', fontWeight: 400, lineHeight: '100%', color: '#316EFF' }}>
+              <div className="text-4xl sm:text-5xl md:text-6xl" style={{ fontFamily: 'Roboto Mono', fontStyle: 'normal', fontWeight: 400, lineHeight: '100%', color: '#316EFF' }}>
                 {formatNumber(timeRemaining.days)}
               </div>
-              <div className="text-xs sm:text-sm md:text-base mt-2" style={{ fontFamily: 'Roboto Mono, monospace', letterSpacing: '0.1em', color: 'rgba(255, 255, 255, 0.57)' }}>
+              <div className="text-[10px] sm:text-xs md:text-sm mt-1 sm:mt-2" style={{ fontFamily: 'Roboto Mono, monospace', letterSpacing: '0.1em', color: 'rgba(255, 255, 255, 0.57)' }}>
                 DAYS
               </div>
             </div>
 
-            <div style={{ fontFamily: 'Roboto Mono', fontSize: '60px', fontStyle: 'normal', fontWeight: 400, lineHeight: '100%', color: 'rgba(255, 255, 255, 0.57)', paddingBottom: '1.75rem' }}>
+            <div className="text-4xl sm:text-5xl md:text-6xl pb-4 sm:pb-6 md:pb-7" style={{ fontFamily: 'Roboto Mono', fontStyle: 'normal', fontWeight: 400, lineHeight: '100%', color: 'rgba(255, 255, 255, 0.57)' }}>
               :
             </div>
 
             <div className="flex flex-col items-center">
-              <div style={{ fontFamily: 'Roboto Mono', fontSize: '60px', fontStyle: 'normal', fontWeight: 400, lineHeight: '100%', color: '#316EFF' }}>
+              <div className="text-4xl sm:text-5xl md:text-6xl" style={{ fontFamily: 'Roboto Mono', fontStyle: 'normal', fontWeight: 400, lineHeight: '100%', color: '#316EFF' }}>
                 {formatNumber(timeRemaining.hours)}
               </div>
-              <div className="text-xs sm:text-sm md:text-base mt-2" style={{ fontFamily: 'Roboto Mono, monospace', letterSpacing: '0.1em', color: 'rgba(255, 255, 255, 0.57)' }}>
+              <div className="text-[10px] sm:text-xs md:text-sm mt-1 sm:mt-2" style={{ fontFamily: 'Roboto Mono, monospace', letterSpacing: '0.1em', color: 'rgba(255, 255, 255, 0.57)' }}>
                 HOURS
               </div>
             </div>
 
-            <div style={{ fontFamily: 'Roboto Mono', fontSize: '60px', fontStyle: 'normal', fontWeight: 400, lineHeight: '100%', color: 'rgba(255, 255, 255, 0.57)', paddingBottom: '1.75rem' }}>
+            <div className="text-4xl sm:text-5xl md:text-6xl pb-4 sm:pb-6 md:pb-7" style={{ fontFamily: 'Roboto Mono', fontStyle: 'normal', fontWeight: 400, lineHeight: '100%', color: 'rgba(255, 255, 255, 0.57)' }}>
               :
             </div>
 
             <div className="flex flex-col items-center">
-              <div style={{ fontFamily: 'Roboto Mono', fontSize: '60px', fontStyle: 'normal', fontWeight: 400, lineHeight: '100%', color: '#316EFF' }}>
+              <div className="text-4xl sm:text-5xl md:text-6xl" style={{ fontFamily: 'Roboto Mono', fontStyle: 'normal', fontWeight: 400, lineHeight: '100%', color: '#316EFF' }}>
                 {formatNumber(timeRemaining.minutes)}
               </div>
-              <div className="text-xs sm:text-sm md:text-base mt-2" style={{ fontFamily: 'Roboto Mono, monospace', letterSpacing: '0.1em', color: 'rgba(255, 255, 255, 0.57)' }}>
+              <div className="text-[10px] sm:text-xs md:text-sm mt-1 sm:mt-2" style={{ fontFamily: 'Roboto Mono, monospace', letterSpacing: '0.1em', color: 'rgba(255, 255, 255, 0.57)' }}>
                 MINUTES
               </div>
             </div>
 
-            <div style={{ fontFamily: 'Roboto Mono', fontSize: '60px', fontStyle: 'normal', fontWeight: 400, lineHeight: '100%', color: 'rgba(255, 255, 255, 0.57)', paddingBottom: '1.75rem' }}>
+            <div className="text-4xl sm:text-5xl md:text-6xl pb-4 sm:pb-6 md:pb-7" style={{ fontFamily: 'Roboto Mono', fontStyle: 'normal', fontWeight: 400, lineHeight: '100%', color: 'rgba(255, 255, 255, 0.57)' }}>
               :
             </div>
 
             <div className="flex flex-col items-center">
-              <div style={{ fontFamily: 'Roboto Mono', fontSize: '60px', fontStyle: 'normal', fontWeight: 400, lineHeight: '100%', color: '#316EFF' }}>
+              <div className="text-4xl sm:text-5xl md:text-6xl" style={{ fontFamily: 'Roboto Mono', fontStyle: 'normal', fontWeight: 400, lineHeight: '100%', color: '#316EFF' }}>
                 {formatNumber(timeRemaining.seconds)}
               </div>
-              <div className="text-xs sm:text-sm md:text-base mt-2" style={{ fontFamily: 'Roboto Mono, monospace', letterSpacing: '0.1em', color: 'rgba(255, 255, 255, 0.57)' }}>
+              <div className="text-[10px] sm:text-xs md:text-sm mt-1 sm:mt-2" style={{ fontFamily: 'Roboto Mono, monospace', letterSpacing: '0.1em', color: 'rgba(255, 255, 255, 0.57)' }}>
                 SECONDS
               </div>
             </div>
