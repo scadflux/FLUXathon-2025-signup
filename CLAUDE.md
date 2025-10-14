@@ -34,8 +34,24 @@ npm run preview      # Preview production build
 
 - **Entry Point**: `src/main.tsx` renders the `App` component
 - **Router**: `src/App.tsx` sets up React Router with QueryClient and Toaster providers
-- **Pages**: `src/pages/Index.tsx` (main page) and `src/pages/NotFound.tsx` (404 fallback)
+- **Pages**:
+  - `src/pages/Countdown.tsx` - countdown timer landing page (root `/`)
+  - `src/pages/Index.tsx` - registration form page (`/form`) with launch time guard
+  - `src/pages/NotFound.tsx` - 404 fallback
 - **Core Component**: `src/components/TeamSubmissionForm.tsx` - main form logic and UI
+- **Utilities**: `src/lib/launchTime.ts` - launch time configuration and validation
+
+### Countdown and Launch Flow
+
+1. **Pre-Launch (default)**: Countdown page displays at `/` with timer and event schedule
+2. **Launch Time Protection**: Form at `/form` blocked until configured launch time
+   - Shows "Registration Not Open" error if accessed early
+   - Auto-redirects to countdown page after 3 seconds
+3. **Post-Launch**: Countdown page auto-redirects to `/form` when timer expires
+4. **Launch Time Utility** (`src/lib/launchTime.ts`):
+   - `getLaunchTime()`: Returns configured launch Date object
+   - `hasLaunched()`: Boolean check if launch time passed
+   - `calculateTimeRemaining()`: Returns days/hours/minutes/seconds remaining
 
 ### Form Submission Flow
 
@@ -46,6 +62,19 @@ npm run preview      # Preview production build
 5. Success/capacity states handled with success screen or capacity reached screen
 
 ### Key Components
+
+- **CountdownPage** (`src/pages/Countdown.tsx`): Landing page component with:
+  - Real-time countdown timer (DD:HH:MM:SS format)
+  - Silkscreen pixelated font for retro aesthetic
+  - Event schedule cards (Thursday/Friday/Saturday)
+  - Auto-redirect to `/form` when countdown expires
+  - Uses `calculateTimeRemaining()` from launch time utility
+
+- **Index** (`src/pages/Index.tsx`): Form route wrapper with:
+  - Launch time guard using `hasLaunched()` utility
+  - "Registration Not Open" error screen for early access
+  - Auto-redirect to countdown page after 3 seconds
+  - Renders `TeamSubmissionForm` when launched
 
 - **TeamSubmissionForm** (`src/components/TeamSubmissionForm.tsx:29`): Main form component with:
   - Webhook URL configuration state
@@ -70,6 +99,12 @@ npm run preview      # Preview production build
 - `/fluxathon.svg` → FLUXathon logo in public directory
 
 ## Environment Variables
+
+- `VITE_LAUNCH_TIME`: Registration form opening time
+  - Format: ISO 8601 with timezone offset (e.g., `2025-10-16T12:00:00-04:00`)
+  - Default: October 16, 2025 at 12:00 PM EDT
+  - Controls countdown timer and form access protection
+  - Configured in `.env` file (see `.env.example` for template)
 
 - `VITE_GOOGLE_SHEETS_WEBHOOK_URL`: Google Apps Script webhook URL for form submissions
   - Configured in `.env` file (see `.env.example` for template)

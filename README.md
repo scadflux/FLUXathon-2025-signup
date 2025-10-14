@@ -67,15 +67,63 @@ This project is built with:
 
 ## Project Details
 
-This is a team registration form for **FLUXathon**, sponsored by Google. The form features:
+This is a team registration form for **FLUXathon**, sponsored by Google. The application features:
 
+- **Countdown Page** - Landing page with countdown timer to registration opening
+- **Registration Form** - Team submission form with capacity tracking
 - Dark, techy design with bright blue (#316EFF) accent color
 - Geometric background patterns
 - FLUXathon branding and Google sponsorship
 - Team capacity tracking (max 20 teams)
 - Real-time submission count from Google Sheets
 
+### Countdown Feature
+
+The application displays a countdown timer page at the root URL (`/`) that counts down to the configured launch time (default: **October 16, 2025 at 12:00 PM EDT**). The countdown page includes:
+
+- **Real-time countdown timer** in DD:HH:MM:SS format
+- **Silkscreen pixelated font** for retro dot-matrix display aesthetic
+- **Event schedule cards** showing the three-day FLUXathon schedule:
+  - **Thursday, Oct 23**: Google Workshop at Deloitte Welcome Center
+  - **Friday, Oct 24**: Shed Session at The Shed (all day work session)
+  - **Saturday, Oct 25**: Finals at Poetter Hall
+- **Automatic redirect** to registration form (`/form`) when countdown reaches zero
+
+#### Launch Time Protection
+
+The registration form at `/form` is protected and will show an error message if accessed before the configured launch time. Users attempting to access the form early will see a "Registration Not Open" message and be automatically redirected back to the countdown page after 3 seconds. This prevents early submissions and confusion.
+
 ## Configuration
+
+### Launch Time Configuration
+
+The registration form opening time is configurable via environment variable:
+
+1. Create a `.env` file from `.env.example`:
+   ```bash
+   cp .env.example .env
+   ```
+
+2. Set the launch time in `.env`:
+   ```
+   VITE_LAUNCH_TIME=2025-10-16T12:00:00-04:00
+   ```
+
+**Format:** ISO 8601 with timezone offset
+- EDT (Eastern Daylight Time): Use `-04:00` offset
+- EST (Eastern Standard Time): Use `-05:00` offset
+- For other timezones, adjust the offset accordingly
+
+**Examples:**
+```
+# October 16, 2025 at 12:00 PM EDT
+VITE_LAUNCH_TIME=2025-10-16T12:00:00-04:00
+
+# For testing: 5 minutes from now (if current time is 2:00 PM EDT)
+VITE_LAUNCH_TIME=2025-01-15T14:05:00-05:00
+```
+
+If not configured, the default launch time is October 16, 2025 at 12:00 PM EDT.
 
 ### Google Sheets Integration
 
@@ -83,11 +131,7 @@ This form integrates with Google Sheets via a Google Apps Script webhook. To con
 
 1. Create a Google Apps Script that handles form submissions
 2. Deploy it as a web app and copy the webhook URL
-3. Create a `.env` file from `.env.example`:
-   ```bash
-   cp .env.example .env
-   ```
-4. Set your webhook URL in `.env`:
+3. Set your webhook URL in `.env`:
    ```
    VITE_GOOGLE_SHEETS_WEBHOOK_URL=https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec
    ```
