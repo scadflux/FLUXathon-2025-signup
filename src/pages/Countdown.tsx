@@ -182,7 +182,7 @@ const CountdownPage = () => {
             </div>
             <div className="space-y-2">
               <h3 className="text-lg font-semibold text-white" style={{ fontFamily: 'Roboto Mono, monospace' }}>Shed Session</h3>
-              <p className="text-sm text-white/80" style={{ fontFamily: 'Roboto Mono, monospace' }}>All Day</p>
+              <p className="text-sm text-white/80" style={{ fontFamily: 'Roboto Mono, monospace' }}>4:00-7:00</p>
               <p className="text-sm text-white/70 leading-relaxed" style={{ fontFamily: 'Roboto Mono, monospace' }}>
                 Work time will be hosted at The Shed with SCADamp. Come to get help with pitching and troubleshoot any remaining issues.
               </p>
