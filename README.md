@@ -67,27 +67,32 @@ This project is built with:
 
 ## Project Details
 
-This is a team registration form for **FLUXathon**, sponsored by Google. The application features:
+This is the event information page for **FLUXathon**, an AI design competition sponsored by Google. The application features:
 
-- **Capacity Reached Page** - Static page showing that registration has closed
+- **Event Schedule** - Three-day event timeline with locations
+- **Registration Status** - Clear notice that registration is closed (20 teams max)
 - Dark, techy design with bright blue (#316EFF) accent color
-- Geometric background patterns
+- Geometric background patterns with floating animations
 - FLUXathon branding and Google sponsorship
 
-**Registration Status:** CLOSED - Maximum capacity of 20 teams has been reached. All routes (`/`, `/form`, and `/fluxathon`) now redirect to the capacity reached page.
+**Registration Status:** CLOSED - Maximum capacity of 20 teams has been reached. The page now displays event information for registered teams.
 
 ### Routing
 
-The application now displays a static capacity reached page at all routes:
+The application now displays event information and registration status at all routes:
 
 - `/` - Redirects to `/fluxathon`
 - `/form` - Redirects to `/fluxathon`
-- `/fluxathon` - Displays the capacity reached message
+- `/fluxathon` - Displays event schedule and registration closed message
 
-The capacity reached page shows:
+The FLUXathon page includes:
 - FLUXathon branding with geometric background
-- "Capacity Reached" message
-- Confirmation that the maximum of 20 teams has been registered
+- Compact "Registration Closed" notice at the top
+- Event schedule with three-day timeline:
+  - **Thursday, Oct 23** (5:00-7:00): Google Workshop at Deloitte Welcome Center
+  - **Friday, Oct 24** (4:00-7:00): Shed Session at The Shed
+  - **Saturday, Oct 25** (12:00): Finals at Poetter Hall
+- Same styling and design system from the countdown page
 
 ### Previous Features (Archived)
 
