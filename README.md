@@ -69,35 +69,63 @@ This project is built with:
 
 This is a team registration form for **FLUXathon**, sponsored by Google. The application features:
 
-- **Countdown Page** - Landing page with countdown timer to registration opening
-- **Registration Form** - Team submission form with capacity tracking
+- **Capacity Reached Page** - Static page showing that registration has closed
 - Dark, techy design with bright blue (#316EFF) accent color
 - Geometric background patterns
 - FLUXathon branding and Google sponsorship
-- Team capacity tracking (max 20 teams)
-- Real-time submission count from Google Sheets
 
-### Countdown Feature
+**Registration Status:** CLOSED - Maximum capacity of 20 teams has been reached. All routes (`/`, `/form`, and `/fluxathon`) now redirect to the capacity reached page.
 
-The application displays a countdown timer page at the root URL (`/`) that counts down to the configured launch time (default: **October 16, 2025 at 12:00 PM EDT**). The countdown page includes:
+### Routing
 
-- **Real-time countdown timer** in DD:HH:MM:SS format
-- **Silkscreen pixelated font** for retro dot-matrix display aesthetic
-- **Event schedule cards** showing the three-day FLUXathon schedule:
-  - **Thursday, Oct 23**: Google Workshop at Deloitte Welcome Center
-  - **Friday, Oct 24**: Shed Session at The Shed (all day work session)
-  - **Saturday, Oct 25**: Finals at Poetter Hall
-- **Automatic redirect** to registration form (`/form`) when countdown reaches zero
+The application now displays a static capacity reached page at all routes:
+
+- `/` - Redirects to `/fluxathon`
+- `/form` - Redirects to `/fluxathon`
+- `/fluxathon` - Displays the capacity reached message
+
+The capacity reached page shows:
+- FLUXathon branding with geometric background
+- "Capacity Reached" message
+- Confirmation that the maximum of 20 teams has been registered
+
+### Previous Features (Archived)
+
+<details>
+<summary>Click to view countdown and registration form features</summary>
+
+#### Countdown Feature
+
+The application previously displayed a countdown timer page at the root URL (`/`) that counted down to the configured launch time. The countdown page included:
+
+- Real-time countdown timer in DD:HH:MM:SS format
+- Silkscreen pixelated font for retro dot-matrix display aesthetic
+- Event schedule cards showing the three-day FLUXathon schedule
+- Automatic redirect to registration form (`/form`) when countdown reached zero
 
 #### Launch Time Protection
 
-The registration form at `/form` is protected and will show an error message if accessed before the configured launch time. Users attempting to access the form early will see a "Registration Not Open" message and be automatically redirected back to the countdown page after 3 seconds. This prevents early submissions and confusion.
+The registration form at `/form` was protected and showed an error message if accessed before the configured launch time. Users attempting to access the form early would see a "Registration Not Open" message and be automatically redirected back to the countdown page after 3 seconds.
+
+#### Registration Form
+
+The form included:
+- Team name input
+- Three team member fields (first name, last name, email)
+- Email validation for @student.scad.edu addresses
+- Real-time capacity tracking (max 20 teams)
+- Submission count from Google Sheets
+- Race condition protection
+
+</details>
 
 ## Configuration
 
-### Launch Time Configuration
+> **Note:** The configuration below is for reference only. Registration is now closed and the application displays a static capacity reached page.
 
-The registration form opening time is configurable via environment variable:
+### Launch Time Configuration (Archived)
+
+The registration form opening time was configurable via environment variable:
 
 1. Create a `.env` file from `.env.example`:
    ```bash
@@ -125,9 +153,9 @@ VITE_LAUNCH_TIME=2025-01-15T14:05:00-05:00
 
 If not configured, the default launch time is October 16, 2025 at 12:00 PM EDT.
 
-### Google Sheets Integration
+### Google Sheets Integration (Archived)
 
-This form integrates with Google Sheets via a Google Apps Script webhook. To configure:
+This form previously integrated with Google Sheets via a Google Apps Script webhook. To configure:
 
 1. Create a Google Apps Script that handles form submissions
 2. Deploy it as a web app and copy the webhook URL
