@@ -71,6 +71,7 @@ export default function TeamSubmissionForm() {
 
         if (count >= MAX_SUBMISSIONS) {
           setIsCapacityReached(true);
+          return false;
         }
 
         return count < MAX_SUBMISSIONS;
@@ -90,6 +91,19 @@ export default function TeamSubmissionForm() {
     loadCount();
   }, []);
 
+  // Poll for capacity every 5 seconds while form is active
+  useEffect(() => {
+    if (isSubmitted || isCapacityReached || isLoading) {
+      return;
+    }
+
+    const intervalId = setInterval(() => {
+      checkCapacity();
+    }, 5000);
+
+    return () => clearInterval(intervalId);
+  }, [isSubmitted, isCapacityReached, isLoading]);
+
   const onSubmit = async (data: FormData) => {
     if (!WEBHOOK_URL) {
       toast.error("Google Sheets webhook URL is not configured");
@@ -99,6 +113,7 @@ export default function TeamSubmissionForm() {
     setIsSubmitting(true);
 
     try {
+      // Client-side capacity check before submission
       const hasCapacity = await checkCapacity();
 
       if (!hasCapacity) {
@@ -128,12 +143,31 @@ export default function TeamSubmissionForm() {
       });
 
       if (response.ok) {
+        const result = await response.json();
+
+        // Server-side capacity check - handle race condition rejections
+        if (result.error === "CAPACITY_REACHED") {
+          setIsCapacityReached(true);
+          toast.error("Registration closed - maximum capacity reached during submission");
+          setIsSubmitting(false);
+          // Refresh the count to show accurate status
+          await checkCapacity();
+          return;
+        }
+
         setIsSubmitted(true);
         setSubmissionCount((prev) => prev + 1);
         toast.success("Team successfully registered!");
         reset();
       } else {
-        throw new Error("Submission failed");
+        const errorData = await response.json().catch(() => ({}));
+        if (errorData.error === "CAPACITY_REACHED") {
+          setIsCapacityReached(true);
+          toast.error("Registration closed - maximum capacity reached during submission");
+          await checkCapacity();
+        } else {
+          throw new Error("Submission failed");
+        }
       }
     } catch (error) {
       console.error("Submission error:", error);

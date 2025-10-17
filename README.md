@@ -140,6 +140,30 @@ The webhook should handle two actions:
 - `action=checkCount`: Returns the current submission count as `{ count: number }`
 - `action=submit`: Saves the team submission data to Google Sheets
 
+#### Race Condition Protection
+
+The form includes multiple layers of protection against race conditions where multiple teams attempt to submit simultaneously for the 20th spot:
+
+**Client-Side Protection:**
+- Real-time capacity polling every 5 seconds while the form is active
+- Users are automatically shown the "Capacity Reached" screen if the limit is reached while filling out the form
+- Pre-submission capacity check before sending data to the server
+
+**Server-Side Protection (Required):**
+Your Google Apps Script webhook **must implement atomic capacity checking** to prevent race conditions. When handling `action=submit`:
+
+1. Check the current count in the spreadsheet
+2. If count >= 20, return an error response:
+   ```javascript
+   return ContentService.createTextOutput(JSON.stringify({
+     error: "CAPACITY_REACHED"
+   })).setMimeType(ContentService.MimeType.JSON);
+   ```
+3. If count < 20, atomically append the submission and increment count
+4. Return success response
+
+**Important:** The client will handle the `CAPACITY_REACHED` error gracefully by showing the capacity reached screen. This ensures that even in race conditions, no more than 20 teams can be registered.
+
 ### Design System
 
 The application uses a custom dark theme with:
